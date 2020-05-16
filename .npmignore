@@ -1,0 +1,9 @@
+.github/**
+.vscode/**
+**/*.ts
+!**/*.d.ts
+*.tgz
+*.tsbuildinfo
+.gitlab-ci.yml
+tsconfig.json
+pnpm-lock.yaml
