@@ -5,9 +5,8 @@
     "lib": [
       "es6"
     ],
-    "allowJs": true,
-    "outDir": "build",
-    "rootDir": "src",
+    "outDir": "./build",
+    "rootDir": "./src",
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -25,13 +24,5 @@
     "esModuleInterop": false,
     "declaration": true,
     "moduleResolution": "node",
-  },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "build",
-    "node_modules",
-    "tests/**/*"
-  ]
+  }
 }

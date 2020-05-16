@@ -2,7 +2,7 @@
   "name": "metro-seq",
   "version": "1.0.0",
   "description": "A MIDI sequencer for Node and Web",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "build": "tsc"
   },
