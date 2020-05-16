@@ -32,10 +32,6 @@ export default class Note {
     return `${this.pitch}${this.octave}`;
   }
 
-  isEqual(other: Note): boolean {
-    return this.octave === other.octave && this.isEqualPitch(other);
-  }
-
   isEqualPitch(other: Note): boolean {
     switch (this.pitch) {
       case Pitch.Ab:
@@ -61,6 +57,10 @@ export default class Note {
       default:
         return other.pitch === this.pitch;
     }
+  }
+
+  isEqual(other: Note): boolean {
+    return this.octave === other.octave && this.isEqualPitch(other);
   }
 
   static readonly chromaticScale: Array<Pitch> = [
