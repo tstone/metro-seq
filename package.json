@@ -1,10 +1,10 @@
 {
   "name": "metro-seq",
   "version": "1.0.0",
-  "description": "A MIDI sequencer for WebMIDI",
+  "description": "A MIDI sequencer for Node and Web",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/tstone/metro-seq/issues"
   },
-  "homepage": "https://github.com/tstone/metro-seq"
+  "homepage": "https://github.com/tstone/metro-seq",
+  "devDependencies": {
+    "@types/node": "^14.0.1",
+    "typescript": "^3.9.2"
+  }
 }
