@@ -1,22 +1,22 @@
 
 export enum Pitch {
-  A,
-  Ab,
-  ASharp,
-  B,
-  Bb,
-  C,
-  CSharp,
-  D,
-  Db,
-  DSharp,
-  E,
-  Eb,
-  F,
-  FSharp,
-  G,
-  Gb,
-  GSharp,
+  A = "A",
+  Ab = "Ab",
+  ASharp = "A#",
+  B = "B",
+  Bb = "Bb",
+  C = "C",
+  CSharp = "C#",
+  D = "D",
+  Db = "Dd",
+  DSharp = "D#",
+  E = "E",
+  Eb = "Eb",
+  F = "F",
+  FSharp = "F#",
+  G = "G",
+  Gb = "G",
+  GSharp = "G#",
 }
 
 export default class Note {
@@ -28,7 +28,7 @@ export default class Note {
     this.octave = octave;
   }
 
-  public toString = (): string => {
+  toString(): string {
     return `${this.pitch}${this.octave}`;
   }
 

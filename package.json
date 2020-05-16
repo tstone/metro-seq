@@ -4,7 +4,8 @@
   "description": "A MIDI sequencer for Node and Web",
   "main": "build/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "tsc && ava --verbose"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/tstone/metro-seq",
   "devDependencies": {
     "@types/node": "^14.0.1",
+    "ava": "^3.8.2",
     "typescript": "^3.9.2"
   }
 }
