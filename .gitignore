@@ -1,5 +1,5 @@
 node_modules/
-**/*.js
+build/
 **/*.js.map
 **/*.d.ts
 **/*.d.ts.map

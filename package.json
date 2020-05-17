@@ -4,7 +4,7 @@
   "description": "A MIDI sequencer for Node and Web",
   "main": "build/index.js",
   "scripts": {
-    "start": "ts-node ./src/cli/index.ts",
+    "start": "tsc && node ./src/cli/index.js",
     "build": "tsc",
     "test": "tsc && ava --verbose"
   },
@@ -22,7 +22,7 @@
   "devDependencies": {
     "@types/node": "^14.0.1",
     "ava": "^3.8.2",
-    "ts-node": "^8.10.1",
+    "easymidi": "^1.1.2",
     "typescript": "^3.9.2"
   }
 }

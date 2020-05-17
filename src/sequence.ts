@@ -3,7 +3,7 @@ import MultiStep from './multiStep';
 import Step from './step';
 import BPM, { Timing } from './BPM';
 import { EventEmitter } from 'events';
-import { Note } from '.';
+import { Note, PitchedNote, MIDI } from '.';
 
 export default class Sequence extends EventEmitter {
   private tickState: TickState;
@@ -81,11 +81,9 @@ export default class Sequence extends EventEmitter {
       gateOffSent = true;
       // the previous step has completed; process the next step
       if (tickState.currentNote) {
-        // TODO: this is more or less assuming a gate length of 100%
-        // add in a feature to set a global gate length or evne better, a per-step gate length
-        // total time and remaining time for the step will need to reflect the gate length
-        // it basically means notoff will fire indepdently of the remaining time on current step
-        this.emit('noteoff', { note: tickState.currentNote.toString() });
+        if (tickState.currentNote instanceof PitchedNote) {
+          this.emit('noteoff', this.getNoteEventPayload(tickState.currentNote));
+        }
       }
     }
 
@@ -93,7 +91,9 @@ export default class Sequence extends EventEmitter {
       const advanceBy = tickState.isFirstRun ? 0 : 1;
       const updatedTickState = tickState.advanceStep(advanceBy, now);
       if (updatedTickState.currentNote) {
-        this.emit('noteon', { note: updatedTickState.currentNote.toString() });
+        if (updatedTickState.currentNote instanceof PitchedNote) {
+          this.emit('noteon', this.getNoteEventPayload(updatedTickState.currentNote));
+        }
       }
       return updatedTickState;
     } else if (!tickState.stepStartTime) {
@@ -102,6 +102,15 @@ export default class Sequence extends EventEmitter {
       return tickState.tick({ gateOffSent });
     } else {
       return tickState.tick();
+    }
+  }
+
+  private getNoteEventPayload(note: PitchedNote) {
+    return {
+      note: note.toString(),
+      pitch: note.pitch,
+      octave: note.octave,
+      midiNoteNumber: MIDI.noteToMIDINoteNumber(note),
     }
   }
 }
