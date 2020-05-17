@@ -1,6 +1,6 @@
-import Phrase from './phrase'
+import Sequence from './sequence'
 import Step from './step';
-import Note, { Pitch } from './note';
+import Note, { PitchedNote, Rest, Pitch } from './note';
 import NoteConstraint from './noteConstraint';
 import ChromaticContraint from './constraints/chromaticConstraint';
 
@@ -8,7 +8,9 @@ export {
   ChromaticContraint,
   Note,
   NoteConstraint,
-  Phrase,
   Pitch,
+  PitchedNote,
+  Rest,
   Step,
+  Sequence,
 }

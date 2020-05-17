@@ -1,7 +1,24 @@
-import Note from './note';
-import Step from './step';
+import { PitchedNote } from './note';
 
 export default interface NoteConstraint {
-  isAllowed(note: Note): boolean;
-  quantizeStep(step: Step): Note
+  readonly length: number;
+  readonly octaveRange: number;
+
+  /**
+   * How many possible notes are in this constraint
+   */
+  readonly discreteNoteCount: number;
+
+  quantizeValue(value: number): PitchedNote
+
+  /**
+   * Given a starting value (origin), determine the next value
+   * based on the amount of possible notes in this constraint.
+   */
+  nextValue(origin: number): number;
+
+  /**
+   * Same as `nextValue`, but decrementing instead.
+   */
+  previousValue(origin: number): number;
 }

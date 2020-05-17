@@ -1,4 +1,3 @@
-
 export enum Pitch {
   A = "A",
   Ab = "Ab",
@@ -19,7 +18,28 @@ export enum Pitch {
   GSharp = "G#",
 }
 
-export default class Note {
+// --- Note ---
+
+export default interface Note {
+  isEqual(other: Note): boolean;
+  isEqualPitch(other: Note): boolean;
+}
+
+// --- Rest ---
+
+export class RestImpl implements Note {
+  isEqual(other: Note): boolean {
+    return (other instanceof RestImpl);
+  }
+  isEqualPitch(_other: Note): boolean {
+    return false;
+  }
+}
+export const Rest = new RestImpl();
+
+// --- PitchedNote ---
+
+export class PitchedNote {
   readonly pitch: Pitch;
   readonly octave: Number;
 
@@ -33,48 +53,39 @@ export default class Note {
   }
 
   isEqualPitch(other: Note): boolean {
-    switch (this.pitch) {
-      case Pitch.Ab:
-        return other.pitch === Pitch.GSharp;
-      case Pitch.ASharp:
-        return other.pitch === Pitch.Bb;
-      case Pitch.Bb:
-        return other.pitch === Pitch.ASharp;
-      case Pitch.CSharp:
-        return other.pitch === Pitch.Db;
-      case Pitch.Db:
-        return other.pitch === Pitch.CSharp;
-      case Pitch.DSharp:
-        return other.pitch === Pitch.Eb;
-      case Pitch.Eb:
-        return other.pitch === Pitch.DSharp;
-      case Pitch.FSharp:
-        return other.pitch === Pitch.Gb;
-      case Pitch.Gb:
-        return other.pitch === Pitch.FSharp;
-      case Pitch.GSharp:
-        return other.pitch === Pitch.Ab;
-      default:
-        return other.pitch === this.pitch;
+    if (other instanceof PitchedNote) {
+      switch (this.pitch) {
+        case Pitch.Ab:
+          return other.pitch === Pitch.GSharp;
+        case Pitch.ASharp:
+          return other.pitch === Pitch.Bb;
+        case Pitch.Bb:
+          return other.pitch === Pitch.ASharp;
+        case Pitch.CSharp:
+          return other.pitch === Pitch.Db;
+        case Pitch.Db:
+          return other.pitch === Pitch.CSharp;
+        case Pitch.DSharp:
+          return other.pitch === Pitch.Eb;
+        case Pitch.Eb:
+          return other.pitch === Pitch.DSharp;
+        case Pitch.FSharp:
+          return other.pitch === Pitch.Gb;
+        case Pitch.Gb:
+          return other.pitch === Pitch.FSharp;
+        case Pitch.GSharp:
+          return other.pitch === Pitch.Ab;
+        default:
+          return other.pitch === this.pitch;
+      }
     }
+    return false;
   }
 
   isEqual(other: Note): boolean {
-    return this.octave === other.octave && this.isEqualPitch(other);
+    if (other instanceof PitchedNote) {
+      return this.octave === other.octave && this.isEqualPitch(other);
+    }
+    return false;
   }
-
-  static readonly chromaticScale: Array<Pitch> = [
-    Pitch.C,
-    Pitch.CSharp,
-    Pitch.D,
-    Pitch.DSharp,
-    Pitch.E,
-    Pitch.F,
-    Pitch.FSharp,
-    Pitch.G,
-    Pitch.GSharp,
-    Pitch.A,
-    Pitch.ASharp,
-    Pitch.B
-  ];
 }
