@@ -3,6 +3,10 @@ export default class Step {
   readonly value?: number;
   readonly length: number;
 
+  // assuming everything is a quarter note for now
+  // TODO: allow different beat divisions
+  readonly lengthMultiplier: number = 1;
+
   static readonly minimumValue = 0;
   static readonly maximumValue = 127;
 
