@@ -32,23 +32,23 @@ export default class MultiStep {
       case MultiStepMode.Hold:
         return [new Step(this.length, this.value)];
       case MultiStepMode.Repeat:
-        return new Array(this.length).map(() => {
+        return new Array(this.length).fill(0).map(() => {
           return new Step(1, this.value);
         });
       case MultiStepMode.Alternating:
-        return new Array(this.length).map((_value, index) => {
+        return new Array(this.length).fill(0).map((_value, index) => {
           const even = (index % 2 == 0);
           if (even) {
             return new Step(1, this.value);
           } else {
-            return new Step(this.length);
+            return new Step(1);
           }
         });
       case MultiStepMode.InverseAlternating:
-        return new Array(this.length).map((_value, index) => {
+        return new Array(this.length).fill(0).map((_value, index) => {
           const even = (index % 2 == 0);
           if (even) {
-            return new Step(this.length);
+            return new Step(1);
           } else {
             return new Step(1, this.value);
           }
