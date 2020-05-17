@@ -5,7 +5,7 @@ export default class BPM {
   }
 
   static toMillis(bpm: number): number {
-    return this.toSeconds(bpm) / 1000;
+    return this.toSeconds(bpm) * 1000;
   }
 
   static getTickDuration(timing: Timing): number {
