@@ -41,11 +41,33 @@ export const Rest = new RestImpl();
 
 export class PitchedNote {
   readonly pitch: Pitch;
-  readonly octave: Number;
+  readonly octave: number;
 
-  constructor(pitch: Pitch, octave: Number) {
+  constructor(pitch: Pitch, octave: number) {
     this.pitch = pitch;
     this.octave = octave;
+  }
+
+  /**
+   * Return either the natural or sharp of the current pitch
+   * irregardless of if it's represented as a flat or sharp
+   * TODO: extract this pitch management code to a separate PitchTools class
+   */
+  equivalentSharpPitch(): Pitch {
+    switch (this.pitch) {
+      case Pitch.Ab:
+        return Pitch.GSharp;
+      case Pitch.Bb:
+        return Pitch.ASharp;
+      case Pitch.Db:
+        return Pitch.CSharp;
+      case Pitch.Eb:
+        return Pitch.DSharp;
+      case Pitch.Gb:
+        return Pitch.FSharp;
+      default:
+        return this.pitch;
+    }
   }
 
   toString(): string {
