@@ -1,16 +1,14 @@
 
 export default class Step {
-  readonly value?: number;
-  readonly length: number;
-
-  // assuming everything is a quarter note for now
-  // TODO: allow different beat divisions
-  readonly lengthMultiplier: number = 1;
-
   static readonly minimumValue = 0;
   static readonly maximumValue = 127;
 
-  constructor(length: number, value?: number, ) {
+  constructor(
+    readonly length: number,
+    readonly value?: number,
+    readonly lengthMultiplier: number = 1,
+    readonly gateLength: number = 0.5
+  ) {
     if (value && value < Step.minimumValue || value && value > Step.maximumValue) {
       throw new Error(`Step value, if given, must be between ${Step.minimumValue} and ${Step.maximumValue}. Was ${value}`);
     }

@@ -67,15 +67,25 @@ export default class Sequence extends EventEmitter {
     // TickState: about what the current state is
 
     const now = new Date().getTime();
-    if (tickState.remainingTimeOnCurrentStep(now) <= 0) {
+
+    // Gate vs Step time
+    // -------------------
+    // A step with a lengthMultiplier of 1 and a gateLength of 0.5 will take 
+    // up a quarter note's time before the next step is advanced to, but the
+    // gate will close (note off) after an eighth note's time.
+
+    if (tickState.remainingGateTimeOnCurrentStep(now) <= 0) {
       // the previous step has completed; process the next step
       if (tickState.currentNote) {
         // TODO: this is more or less assuming a gate length of 100%
         // add in a feature to set a global gate length or evne better, a per-step gate length
         // total time and remaining time for the step will need to reflect the gate length
+        // it basically means notoff will fire indepdently of the remaining time on current step
         this.emit('noteoff', { note: tickState.currentNote.toString() });
       }
+    }
 
+    if (tickState.remainingStepTimeOnCurrentStep(now) <= 0) {
       const updatedTickState = tickState.advanceStep(now);
       if (tickState.currentNote) {
         this.emit('noteon', { note: tickState.currentNote.toString() });
@@ -138,6 +148,10 @@ class TickState {
     return (currentStep.length * currentStep.lengthMultiplier) * BPM.toMillis(this.bpm);
   }
 
+  get gateTimeForCurrentStep() {
+    return this.totalTimeForCurrentStep * this.currentStep.gateLength;
+  }
+
   /**
    * Returns the amount of time in millis that has elapsed for the current step
    * @param relativeToTime e.g. now
@@ -153,8 +167,16 @@ class TickState {
    * Returns the amount of time in millis that remains before the current step is done
    * @param relativeToTime e.g. now
    */
-  remainingTimeOnCurrentStep(relativeToTime: number) {
+  remainingStepTimeOnCurrentStep(relativeToTime: number) {
     return this.totalTimeForCurrentStep - this.elaspedTimeOnCurrentStep(relativeToTime);
+  }
+
+  /**
+   * Returns the amount of time in millis that remains before the current step's GATE is done
+   * @param relativeToTime e.g. now
+   */
+  remainingGateTimeOnCurrentStep(relativeToTime: number) {
+    return this.gateTimeForCurrentStep - this.elaspedTimeOnCurrentStep(relativeToTime);
   }
 
   tick(now: number): TickState {
