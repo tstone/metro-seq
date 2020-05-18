@@ -6,7 +6,7 @@ const { Sequence, ChromaticConstraint, MultiStep, MultiStepMode, MIDI } = requir
 // Edit this to change the sequence:
 
 function getSequence(bpm) {
-  new Sequence(
+  return new Sequence(
     { bpm, ppqn: 96 },
     [new ChromaticConstraint(1, 2)],
     [
