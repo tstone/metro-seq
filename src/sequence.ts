@@ -69,6 +69,7 @@ export default class Sequence extends EventEmitter {
     // TickState: about what the current state is
 
     const now = new Date().getTime();
+    // console.log('tick', now, 'remaining gate time', tickState.remainingGateTimeOnCurrentStep(now), 'remaining step time', tickState.remainingStepTimeOnCurrentStep(now));
 
     // Gate vs Step time
     // -------------------
@@ -170,7 +171,7 @@ class TickState {
 
   get totalTimeForCurrentStep() {
     const currentStep = this.currentStep;
-    return (currentStep.length * currentStep.lengthMultiplier) * BPM.toMillis(this.bpm);
+    return (currentStep.length * BPM.toMillis(this.bpm)) * currentStep.lengthMultiplier;
   }
 
   get gateTimeForCurrentStep() {

@@ -2,6 +2,22 @@ const easymidi = require('easymidi');
 const readline = require('readline');
 const { Sequence, ChromaticConstraint, MultiStep, MultiStepMode, MIDI } = require('../../build');
 
+// -------------------
+// Edit this to change the sequence:
+
+function getSequence(bpm) {
+  new Sequence(
+    { bpm, ppqn: 96 },
+    [new ChromaticConstraint(1, 2)],
+    [
+      new MultiStep(0, 3, MultiStepMode.Repeat),
+      new MultiStep(65, 3, MultiStepMode.Repeat),
+      new MultiStep(127, 3, MultiStepMode.Repeat),
+    ]
+  );
+}
+
+// -------------------
 
 class App {
   async start() {
@@ -20,6 +36,7 @@ class App {
     process.on('beforExit', () => output.close());
     process.on('exit', () => output.close());
     process.on('disconnect', () => output.close());
+    // TODO: need to send a ALL NOTE OFF on shutdown as well
 
     const offestChannel = channel - 1; // easymidi seems to be 0 indexed
     console.log(`Starting sequencer. Sending to ${device} on channel ${channel}`);
@@ -41,8 +58,8 @@ class App {
   pickDevice(rl) {
     const outputDevices = easymidi.getOutputs();
     const message = outputDevices.reduce((acc, deviceName, index) => {
-      return acc + `\n  ${index}: ${deviceName}`;
-    }, '🎹 🎛️  Select an output device:') + '\n';
+      return acc + `${index}: ${deviceName}\n`;
+    }, '') + '\nSelect an output device: ';
 
     return new Promise((resolve, reject) => {
       rl.question(message, (answer) => {
@@ -57,15 +74,7 @@ class App {
   }
 
   runSequencer(midiOut, channel, bpm) {
-    const sequence = new Sequence(
-      { bpm, ppqn: 96 },
-      [new ChromaticConstraint(1, 2)],
-      [
-        new MultiStep(0, 3, MultiStepMode.Repeat),
-        new MultiStep(65, 3, MultiStepMode.Repeat),
-        new MultiStep(127, 3, MultiStepMode.Repeat),
-      ]
-    );
+    const sequence = getSequence(bpm);
 
     sequence.on('start', event => {
       console.log('START', JSON.stringify(event));

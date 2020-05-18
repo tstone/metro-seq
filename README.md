@@ -1,8 +1,34 @@
-Metro Seq (Library)
+# Metro Seq (Library & CLI Tool)
 
-_in development_
+### _Under Development_
 
-NOTES / CLI ideas:
+### Setup
+
+```
+$ git clone git@github.com:tstone/metro-seq.git
+$ cd metro-seq
+$ npm install
+```
+
+### Operation
+```
+$ npm start
+```
+
+### Editing to Sequence
+
+(under development)
+
+Edit `getSequence` at the top of `./src/cli/index.js`
+
+#### TODO
+
+ * [ ] Changing the length multiplier does not seem to work
+ * [ ] Write tests for TickState to make sure it's working correctly
+ * [ ] Need to define a way to modify the length multiplier for MultiStep
+ * [ ] Make a better UI (below)
+
+#### NOTES / CLI ideas (mostly to myself):
 
 QWERTY to control steps
 max 24 step, Q-P, A-L, Z-B
